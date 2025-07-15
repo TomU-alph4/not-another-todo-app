@@ -14,9 +14,12 @@
           <td class="px-4 py-2">{{ task.dueDate }}</td>
           <td class="px-4 py-2">
             <button @click="toggleComplete(task)" class="btn">
-              {{ task.completed ? 'Undo' : 'Complete' }}
+              <CheckIcon class="h-5 w-5" v-if="!task.completed" />
+              <ArrowTurnDownLeftIcon class="h-5 w-5" v-else />
             </button>
-            <button @click="deleteTask(task.id)" class="btn">Delete</button>
+            <button @click="deleteTask(task.id)" class="btn">
+              <TrashIcon class="h-5 w-5" />
+            </button>
           </td>
         </tr>
       </tbody>
@@ -27,11 +30,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useTaskStore from '../stores/tasks'
+import { TrashIcon, CheckIcon, ArrowTurnDownLeftIcon } from '@heroicons/vue/24/solid'
 
 export default defineComponent({
   name: 'ListComponent',
+  components: {
+    TrashIcon,
+    CheckIcon,
+    ArrowTurnDownLeftIcon,
+  },
   beforeMount() {
-    this.tasks = this.taskStore.allTasks
+    this.tasks = this.taskStore.pendingTasks
   },
   data() {
     return {
@@ -43,10 +52,13 @@ export default defineComponent({
     toggleComplete(task: { id: number; name: string; dueDate: string; completed: boolean }) {
       task.completed = !task.completed
       this.taskStore.updateTask(task)
+      setTimeout(() => {
+        this.tasks = this.taskStore.pendingTasks
+      }, 2000)
     },
     deleteTask(taskId: number) {
       this.taskStore.deleteTask(taskId)
-      this.tasks = this.taskStore.allTasks
+      this.tasks = this.taskStore.pendingTasks
     },
   },
 })

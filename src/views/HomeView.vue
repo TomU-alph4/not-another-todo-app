@@ -1,20 +1,26 @@
 <template>
   <div class="flex justify-center">
-    <button
-      class="px-6 py-4 bg-blue-500 text-2xl font-semibold text-white rounded-full hover:bg-blue-600 transition-colors duration-200 ease-in-out hover:shadow-lg transform hover:scale-105"
-      @click="$router.push('/add-task')"
-    >
-      Add Task +
-    </button>
+    <div>
+      <h1 class="text-4xl font-bold text-gray-800 mt-10 mb-6 text-center">
+        Welcome to Your Todo List
+      </h1>
+      <p class="text-lg text-gray-600 text-center mb-10">
+        Manage your tasks efficiently and effectively with our simple yet powerful todo list app.
+      </p>
+      <div class="flex justify-center">
+        <button class="btn items-center" @click="$router.push('/add-task')">Add Task +</button>
+      </div>
+      <ListComponent class="mt-10" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-
+import ListComponent from '../components/ListComponent.vue'
 export default {
   name: 'HomeView',
   components: {
-    // Add any components you want to use in this view
+    ListComponent,
   },
   data() {
     return {

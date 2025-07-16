@@ -1,18 +1,18 @@
 <template>
   <div>
-    <table class="w-full text-left">
+    <table class="w-full text-left rounded-2xl bg-amber-400">
       <thead>
-        <tr>
+        <tr class="border-b">
           <th class="px-4 py-2">Task</th>
           <th class="px-4 py-2">Due Date</th>
           <th class="px-4 py-2">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="task in tasks" :key="task.id">
+        <tr v-for="task in tasks" :key="task.id" class="border-b last:border-b-0">
           <td class="px-4 py-2">{{ task.name }}</td>
           <td class="px-4 py-2">{{ task.dueDate }}</td>
-          <td class="px-4 py-2">
+          <td class="px-4 py-2 space">
             <button @click="toggleComplete(task)" class="btn">
               <CheckIcon class="h-5 w-5" v-if="!task.completed" />
               <ArrowTurnDownLeftIcon class="h-5 w-5" v-else />
@@ -39,26 +39,27 @@ export default defineComponent({
     CheckIcon,
     ArrowTurnDownLeftIcon,
   },
-  beforeMount() {
-    this.tasks = this.taskStore.pendingTasks
-  },
   data() {
     return {
-      tasks: [] as Array<{ id: number; name: string; dueDate: string; completed: boolean }>,
       taskStore: useTaskStore(),
     }
+  },
+  props: {
+    tasks: {
+      type: Array as () => Array<{ id: number; name: string; dueDate: string; completed: boolean }>,
+      default: () => [],
+      required: true,
+    },
   },
   methods: {
     toggleComplete(task: { id: number; name: string; dueDate: string; completed: boolean }) {
       task.completed = !task.completed
       this.taskStore.updateTask(task)
-      setTimeout(() => {
-        this.tasks = this.taskStore.pendingTasks
-      }, 2000)
+      this.$emit('taskupdated', task)
     },
     deleteTask(taskId: number) {
       this.taskStore.deleteTask(taskId)
-      this.tasks = this.taskStore.pendingTasks
+      this.$emit('taskdeleted', taskId)
     },
   },
 })

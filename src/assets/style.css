@@ -1,11 +1,12 @@
 @import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 @layer components {
   .btn {
     @apply bg-amber-700 text-white font-bold py-3 px-4 rounded-full hover:bg-amber-800 shadow-md transition transform hover:-translate-y-0.5 hover:cursor-pointer;
+  }
+  .btn-secondary {
+    @apply bg-amber-400 text-white font-bold py-3 px-4 rounded-full hover:bg-amber-500 shadow-md transition transform hover:-translate-y-0.5 hover:cursor-pointer;
   }
 }

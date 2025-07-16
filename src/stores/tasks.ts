@@ -2,7 +2,11 @@ import { defineStore } from 'pinia'
 
 const useTaskStore = defineStore('tasks', {
   state: () => ({
-    tasks: [] as Array<{ id: number; name: string; dueDate: string; completed: boolean }>,
+    tasks: [
+      { id: 1, name: 'Buy groceries', dueDate: '2025-07-17', completed: false },
+      { id: 2, name: 'Finish project report', dueDate: '2025-07-18', completed: false },
+      { id: 3, name: 'Call Alice', dueDate: '2025-07-19', completed: true },
+    ] as Array<{ id: number; name: string; dueDate: string; completed: boolean }>,
   }),
   getters: {
     allTasks: (state) => state.tasks,
